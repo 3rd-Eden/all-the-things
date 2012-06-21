@@ -1,0 +1,23 @@
+{
+  "author": "Arnout Kazemier <info@3rd-Eden.com> (http://3rd-Eden.com)",
+  "name": "all-the-things",
+  "description": "Random development of all the things, which should not be published yet, but does need to be tested",
+  "version": "0.0.0",
+  "homepage": "https://github.com/3rd-Eden/all-the-things",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/3rd-Eden/all-the-things.git"
+  },
+  "scripts": {
+    "test": "make test"
+  },
+  "engines": {
+    "node": "~0.6.0"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "*",
+    "expect": "*"
+  },
+  "optionalDependencies": {}
+}
