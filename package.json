@@ -17,7 +17,7 @@
   "dependencies": {},
   "devDependencies": {
     "mocha": "*",
-    "expect": "*"
+    "chai": "*"
   },
   "optionalDependencies": {}
 }
