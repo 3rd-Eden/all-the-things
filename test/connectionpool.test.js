@@ -165,6 +165,35 @@ describe('connectionpool', function () {
         connection.end();
       });
     });
+
+    it('should handle burst allocations', function (done) {
+      var pool = new ConnectionPool()
+        , count = 0
+        , allocations = 25;
+
+      pool.factory(function factory() {
+        return net.connect(port, host);
+      });
+
+      /**
+       * Small helper function.
+       *
+       * @param {error} err
+       * @api private
+       */
+
+      function allocate(err) {
+        if (++count !== allocations) return;
+        expect(pool.pool).to.have.length(pool.limit);
+
+        pool.free(0);
+        done();
+      }
+
+      for (var i = 0; i < allocations; i++) {
+        pool.allocate(allocate);
+      }
+    });
   });
 
   describe('#free', function () {

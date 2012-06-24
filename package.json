@@ -14,7 +14,9 @@
   "engines": {
     "node": "~0.6.0"
   },
-  "dependencies": {},
+  "dependencies": {
+    "retry": "0.6.0"
+  },
   "devDependencies": {
     "mocha": "1.2.0",
     "chai": "1.0.4"
