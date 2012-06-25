@@ -169,10 +169,15 @@ describe('connectionpool', function () {
     it('should handle burst allocations', function (done) {
       var pool = new ConnectionPool()
         , count = 0
-        , allocations = 25;
+        , allocations = 50;
+
+      var backup = [];
 
       pool.factory(function factory() {
-        return net.connect(port, host);
+        var conn = net.connect(port, host);
+
+        backup.push(conn);
+        return conn;
       });
 
       /**
@@ -182,17 +187,39 @@ describe('connectionpool', function () {
        * @api private
        */
 
-      function allocate(err) {
+      function allocate(err, conn) {
         if (++count !== allocations) return;
-        expect(pool.pool).to.have.length(pool.limit);
 
-        pool.free(0);
-        done();
+        // free all the things
+        pool.end(true);
+        expect(pool.pending).to.eql(0);
+        expect(pool.pool).to.have.length(0);
       }
 
       for (var i = 0; i < allocations; i++) {
         pool.allocate(allocate);
       }
+
+      pool.once('free', function (saved) {
+        expect(saved).to.eql(0);
+      });
+
+      pool.once('end', function () {
+        var handles = process._getActiveHandles().filter(function (handle) {
+          return handle instanceof net.Socket;
+        });
+
+        var active = [];
+
+        handles.forEach(function (socket) {
+          var has = backup.indexOf(socket);
+          if (has !== -1 && !socket.destroyed) active.push(socket);
+        });
+
+        // still leaking sockets
+        console.log(active.length, handles.length);
+        done();
+      });
     });
   });
 

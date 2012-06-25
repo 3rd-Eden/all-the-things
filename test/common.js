@@ -5,6 +5,7 @@
  */
 global.net = require('net');
 global.chai = require('chai');
+global.chai.Assertion.includeStack = true;
 global.expect = global.chai.expect;
 
 /**
