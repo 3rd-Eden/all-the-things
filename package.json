@@ -18,8 +18,7 @@
     "retry": "0.6.0"
   },
   "devDependencies": {
-    "mocha": "1.2.0",
-    "chai": "1.0.4"
-  },
-  "optionalDependencies": {}
+    "mocha": "1.2.1",
+    "chai": "1.1.0"
+  }
 }

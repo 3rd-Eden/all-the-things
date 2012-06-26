@@ -171,13 +171,8 @@ describe('connectionpool', function () {
         , count = 0
         , allocations = 50;
 
-      var backup = [];
-
       pool.factory(function factory() {
-        var conn = net.connect(port, host);
-
-        backup.push(conn);
-        return conn;
+        return net.connect(port, host);
       });
 
       /**
