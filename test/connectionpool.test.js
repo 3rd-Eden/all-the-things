@@ -204,22 +204,7 @@ describe('connectionpool', function () {
         expect(saved).to.eql(0);
       });
 
-      pool.once('end', function () {
-        var handles = process._getActiveHandles().filter(function (handle) {
-          return handle instanceof net.Socket;
-        });
-
-        var active = [];
-
-        handles.forEach(function (socket) {
-          var has = backup.indexOf(socket);
-          if (has !== -1 && !socket.destroyed) active.push(socket);
-        });
-
-        // still leaking sockets
-        console.log(active.length, handles.length);
-        done();
-      });
+      pool.once('end', done);
     });
   });
 
